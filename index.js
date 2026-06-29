@@ -7,6 +7,9 @@ const PORT = 3000;
 const RAPIDAPI_KEY = "a61865140amsh2b788b410ad67c4p13a010jsn53967ea9e494";
 
 app.use(express.static("public"));
+app.get("/sitemap.xml", (req, res) => {
+  res.sendFile(__dirname + "/sitemap.xml");
+});
 
 app.get("/download", async (req, res) => {
   const url = req.query.url;
