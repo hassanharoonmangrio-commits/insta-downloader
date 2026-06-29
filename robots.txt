@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://insta-downloader-production-b2ca.up.railway.app/sitemap.xml

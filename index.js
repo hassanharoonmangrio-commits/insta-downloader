@@ -10,7 +10,9 @@ app.use(express.static("public"));
 app.get("/sitemap.xml", (req, res) => {
   res.sendFile(__dirname + "/sitemap.xml");
 });
-
+app.get("/robots.txt", (req, res) => {
+  res.sendFile(__dirname + "/robots.txt");
+});
 app.get("/download", async (req, res) => {
   const url = req.query.url;
 
