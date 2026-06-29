@@ -3,101 +3,232 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Instagram Downloader</title>
+  <title>Insta Downloader - Download Instagram Reels & Videos Free</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
-      min-height: 100vh;
+    body { font-family: 'Segoe UI', sans-serif; background: #0f0f0f; color: white; }
+
+    /* NAVBAR */
+    nav {
       display: flex;
+      justify-content: space-between;
       align-items: center;
-      justify-content: center;
+      padding: 18px 40px;
+      background: #1a1a1a;
+      border-bottom: 1px solid #333;
     }
-    .card {
-      background: white;
-      padding: 40px;
-      border-radius: 20px;
-      width: 90%;
-      max-width: 500px;
+    .logo { font-size: 22px; font-weight: bold; background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .nav-links a { color: #ccc; text-decoration: none; margin-left: 25px; font-size: 14px; }
+    .nav-links a:hover { color: white; }
+
+    /* HERO */
+    .hero {
       text-align: center;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      padding: 80px 20px 50px;
+      background: linear-gradient(180deg, #1a1a1a 0%, #0f0f0f 100%);
     }
-    h1 { color: #833ab4; margin-bottom: 10px; }
-    p { color: #666; margin-bottom: 25px; }
-    input {
-      width: 100%;
-      padding: 12px 15px;
-      border: 2px solid #ddd;
-      border-radius: 10px;
-      font-size: 15px;
-      margin-bottom: 15px;
-      outline: none;
+    .hero h1 { font-size: 48px; font-weight: 800; margin-bottom: 15px; }
+    .hero h1 span { background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero p { color: #aaa; font-size: 18px; margin-bottom: 40px; }
+
+    /* SEARCH BOX */
+    .search-box {
+      max-width: 650px;
+      margin: 0 auto;
+      display: flex;
+      gap: 10px;
+      background: #1e1e1e;
+      border: 1px solid #333;
+      border-radius: 50px;
+      padding: 8px 8px 8px 20px;
     }
-    input:focus { border-color: #833ab4; }
-    button {
-      width: 100%;
-      padding: 13px;
-      background: linear-gradient(135deg, #833ab4, #fd1d1d);
-      color: white;
+    .search-box input {
+      flex: 1;
+      background: transparent;
       border: none;
-      border-radius: 10px;
-      font-size: 16px;
+      outline: none;
+      color: white;
+      font-size: 15px;
+    }
+    .search-box input::placeholder { color: #666; }
+    .search-box button {
+      background: linear-gradient(135deg, #833ab4, #fd1d1d);
+      border: none;
+      color: white;
+      padding: 12px 30px;
+      border-radius: 50px;
+      font-size: 15px;
+      font-weight: bold;
       cursor: pointer;
     }
-    #result { margin-top: 25px; display: none; }
-    #thumbnail { width: 100%; border-radius: 10px; margin-bottom: 15px; }
+    .search-box button:hover { opacity: 0.9; }
+
+    /* RESULT */
+    #result { max-width: 500px; margin: 40px auto; display: none; background: #1e1e1e; border-radius: 15px; overflow: hidden; border: 1px solid #333; }
+    #thumbnail { width: 100%; display: block; }
+    .result-info { padding: 20px; }
     #downloadBtn {
-      background: linear-gradient(135deg, #11998e, #38ef7d);
-      text-decoration: none;
       display: block;
-      padding: 13px;
-      border-radius: 10px;
+      background: linear-gradient(135deg, #11998e, #38ef7d);
       color: white;
+      text-align: center;
+      padding: 14px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: bold;
       font-size: 16px;
     }
-    #error { color: red; margin-top: 15px; display: none; }
-    #loading { margin-top: 15px; color: #833ab4; display: none; }
+
+    /* STATUS */
+    #loading { text-align: center; margin: 30px; color: #833ab4; display: none; font-size: 16px; }
+    #error { text-align: center; margin: 20px; color: #fd1d1d; display: none; }
+
+    /* FEATURES */
+    .features { display: flex; justify-content: center; gap: 30px; padding: 60px 20px; flex-wrap: wrap; }
+    .feature-card {
+      background: #1a1a1a;
+      border: 1px solid #2a2a2a;
+      border-radius: 15px;
+      padding: 30px;
+      width: 220px;
+      text-align: center;
+    }
+    .feature-card .icon { font-size: 40px; margin-bottom: 15px; }
+    .feature-card h3 { margin-bottom: 10px; font-size: 16px; }
+    .feature-card p { color: #777; font-size: 13px; line-height: 1.6; }
+
+    /* HOW TO */
+    .how-to { text-align: center; padding: 60px 20px; background: #1a1a1a; }
+    .how-to h2 { font-size: 32px; margin-bottom: 40px; }
+    .steps { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; }
+    .step { width: 200px; }
+    .step-num { width: 50px; height: 50px; background: linear-gradient(135deg, #833ab4, #fd1d1d); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: bold; margin: 0 auto 15px; }
+    .step p { color: #aaa; font-size: 14px; }
+
+    /* FOOTER */
+    footer { background: #1a1a1a; border-top: 1px solid #2a2a2a; padding: 30px; text-align: center; color: #555; font-size: 13px; }
+    footer a { color: #777; text-decoration: none; margin: 0 15px; }
+    footer a:hover { color: white; }
+    footer p { margin-top: 15px; }
   </style>
 </head>
 <body>
-  <div class="card">
-    <h1>📥 Insta Downloader</h1>
-    <p>Instagram Reels & Videos Download Karo</p>
-    <input type="text" id="urlInput" placeholder="Instagram link yahan paste karo..." />
-    <button onclick="downloadVideo()">Download Karo</button>
-    <p id="loading">⏳ Video dhoond raha hoon...</p>
-    <p id="error"></p>
+
+  <!-- NAVBAR -->
+  <nav>
+    <div class="logo">📥 InstaDownloader</div>
+    <div class="nav-links">
+      <a href="/about.html">About</a>
+      <a href="/contact.html">Contact</a>
+      <a href="/privacy-policy.html">Privacy</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <h1>Download Instagram <span>Reels & Videos</span></h1>
+    <p>Fast, Free, and No Login Required</p>
+
+    <div class="search-box">
+      <input type="text" id="urlInput" placeholder="Paste Instagram link here..." />
+      <button onclick="downloadVideo()">⬇ Download</button>
+    </div>
+
+    <div id="loading">⏳ Fetching video...</div>
+    <div id="error"></div>
+
     <div id="result">
       <img id="thumbnail" src="" alt="Thumbnail" />
-      <a id="downloadBtn" href="#" target="_blank">⬇️ Video Download Karo</a>
+      <div class="result-info">
+        <a id="downloadBtn" href="#" target="_blank">⬇️ Download Video</a>
+      </div>
     </div>
   </div>
+
+  <!-- FEATURES -->
+  <div class="features">
+    <div class="feature-card">
+      <div class="icon">⚡</div>
+      <h3>Super Fast</h3>
+      <p>Download any Instagram video in seconds</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">🆓</div>
+      <h3>100% Free</h3>
+      <p>No hidden charges, no subscription needed</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">🔒</div>
+      <h3>Secure</h3>
+      <p>We don't store your data or videos</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">📱</div>
+      <h3>All Devices</h3>
+      <p>Works on mobile, tablet and desktop</p>
+    </div>
+  </div>
+
+  <!-- HOW TO -->
+  <div class="how-to">
+    <h2>How To Download?</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Copy Link</h3>
+        <p>Copy the Instagram Reel or Video link</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Paste Link</h3>
+        <p>Paste the link in the search box above</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Download</h3>
+        <p>Click Download and save your video</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <a href="/about.html">About Us</a>
+    <a href="/privacy-policy.html">Privacy Policy</a>
+    <a href="/contact.html">Contact Us</a>
+    <p>© 2026 InstaDownloader. All rights reserved.</p>
+  </footer>
+
   <script>
     async function downloadVideo() {
       const url = document.getElementById("urlInput").value.trim();
       const loading = document.getElementById("loading");
       const error = document.getElementById("error");
       const result = document.getElementById("result");
+
       error.style.display = "none";
       result.style.display = "none";
+
       if (!url) {
-        error.textContent = "⚠️ Pehle Instagram link paste karo!";
+        error.textContent = "⚠️ Please paste an Instagram link!";
         error.style.display = "block";
         return;
       }
+
       loading.style.display = "block";
+
       try {
         const res = await fetch(`/download?url=${encodeURIComponent(url)}`);
         const data = await res.json();
         loading.style.display = "none";
+
         if (data.status === "success" && data.data.media.length > 0) {
           const media = data.data.media[0];
           document.getElementById("thumbnail").src = media.thumbnail;
           document.getElementById("downloadBtn").href = media.url;
           result.style.display = "block";
         } else {
-          error.textContent = "❌ Video nahi mili. Sahi link do!";
+          error.textContent = "❌ Video not found. Try a valid link!";
           error.style.display = "block";
         }
       } catch (err) {
@@ -107,11 +238,6 @@
       }
     }
   </script>
-  <div style="text-align:center; padding: 20px; margin-top: 20px; font-size: 14px; color: #666;">
-    <a href="/about.html" style="margin: 0 10px; color: #833ab4; text-decoration: none;">About Us</a>
-    <a href="/privacy-policy.html" style="margin: 0 10px; color: #833ab4; text-decoration: none;">Privacy Policy</a>
-    <a href="/contact.html" style="margin: 0 10px; color: #833ab4; text-decoration: none;">Contact Us</a>
-    <p style="margin-top: 10px;">© 2026 Insta Downloader. All rights reserved.</p>
-  </div>
+
 </body>
 </html>
