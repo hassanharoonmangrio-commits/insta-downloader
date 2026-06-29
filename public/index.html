@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Instagram Downloader</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .card {
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      width: 90%;
+      max-width: 500px;
+      text-align: center;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    }
+    h1 { color: #833ab4; margin-bottom: 10px; }
+    p { color: #666; margin-bottom: 25px; }
+    input {
+      width: 100%;
+      padding: 12px 15px;
+      border: 2px solid #ddd;
+      border-radius: 10px;
+      font-size: 15px;
+      margin-bottom: 15px;
+      outline: none;
+    }
+    input:focus { border-color: #833ab4; }
+    button {
+      width: 100%;
+      padding: 13px;
+      background: linear-gradient(135deg, #833ab4, #fd1d1d);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    #result { margin-top: 25px; display: none; }
+    #thumbnail { width: 100%; border-radius: 10px; margin-bottom: 15px; }
+    #downloadBtn {
+      background: linear-gradient(135deg, #11998e, #38ef7d);
+      text-decoration: none;
+      display: block;
+      padding: 13px;
+      border-radius: 10px;
+      color: white;
+      font-size: 16px;
+    }
+    #error { color: red; margin-top: 15px; display: none; }
+    #loading { margin-top: 15px; color: #833ab4; display: none; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>📥 Insta Downloader</h1>
+    <p>Instagram Reels & Videos Download Karo</p>
+    <input type="text" id="urlInput" placeholder="Instagram link yahan paste karo..." />
+    <button onclick="downloadVideo()">Download Karo</button>
+    <p id="loading">⏳ Video dhoond raha hoon...</p>
+    <p id="error"></p>
+    <div id="result">
+      <img id="thumbnail" src="" alt="Thumbnail" />
+      <a id="downloadBtn" href="#" target="_blank">⬇️ Video Download Karo</a>
+    </div>
+  </div>
+  <script>
+    async function downloadVideo() {
+      const url = document.getElementById("urlInput").value.trim();
+      const loading = document.getElementById("loading");
+      const error = document.getElementById("error");
+      const result = document.getElementById("result");
+      error.style.display = "none";
+      result.style.display = "none";
+      if (!url) {
+        error.textContent = "⚠️ Pehle Instagram link paste karo!";
+        error.style.display = "block";
+        return;
+      }
+      loading.style.display = "block";
+      try {
+        const res = await fetch(`/download?url=${encodeURIComponent(url)}`);
+        const data = await res.json();
+        loading.style.display = "none";
+        if (data.status === "success" && data.data.media.length > 0) {
+          const media = data.data.media[0];
+          document.getElementById("thumbnail").src = media.thumbnail;
+          document.getElementById("downloadBtn").href = media.url;
+          result.style.display = "block";
+        } else {
+          error.textContent = "❌ Video nahi mili. Sahi link do!";
+          error.style.display = "block";
+        }
+      } catch (err) {
+        loading.style.display = "none";
+        error.textContent = "❌ Error: " + err.message;
+        error.style.display = "block";
+      }
+    }
+  </script>
+</body>
+</html>
